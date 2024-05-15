@@ -18,8 +18,16 @@ let posts = [
 
 // Get all posts
 // http://localhost:8899/api/posts
+// Limit
+// http://localhost:8899/api/posts?limit=2
 app.get("/api/posts", (req, res) => {
-  res.json(posts);
+  const limit = parseInt(req.query.limit);
+
+  if (!isNaN(limit) && limit > 0) {
+    res.status(200).json(posts.slice(0, limit));
+  } else {
+    res.status(200).json(posts);
+  }
 });
 
 // Get single post
@@ -27,7 +35,14 @@ app.get("/api/posts", (req, res) => {
 app.get("/api/posts/:id", (req, res) => {
   const id = parseInt(req.params.id);
 
-  res.json(posts.filter((post) => post.id === id));
+  const post = posts.find((post) => post.id === id);
+  //res.status(200).json(posts.filter((post) => post.id === id));
+
+  if (!post) {
+    res.status(404).json({ msg: `That post was not found` });
+  } else {
+    res.status(200).json(post);
+  }
 });
 
 //
