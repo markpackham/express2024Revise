@@ -8,8 +8,13 @@ import posts from "./routes/posts.js";
 
 const app = express();
 
-// setup static folder
+// Setup static folder
 // app.use(express.static(path.join(__dirname, "public")));
+
+// Body parser middleware
+app.use(express.json());
+// Handle form data
+app.use(express.urlencoded({ extended: false }));
 
 // Routes
 app.use("/api/posts", posts);
