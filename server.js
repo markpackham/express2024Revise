@@ -1,5 +1,7 @@
 const express = require("express");
 const path = require("path");
+// With Windows permissions cross-env needs to be installed to use the .env
+// https://www.npmjs.com/package/cross-env
 const port = process.env.PORT || 8888;
 
 const app = express();
