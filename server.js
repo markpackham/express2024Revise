@@ -1,10 +1,10 @@
-const express = require("express");
-const path = require("path");
+import express from "express";
+import path from "path";
 // With Windows permissions cross-env needs to be installed to use the .env
 // https://www.npmjs.com/package/cross-env
 const port = process.env.PORT || 8888;
 
-const posts = require("./routes/posts");
+import posts from "./routes/posts.js";
 
 const app = express();
 

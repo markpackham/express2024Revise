@@ -1,4 +1,4 @@
-const express = require("express");
+import express from "express";
 const router = express.Router();
 
 let posts = [
@@ -34,5 +34,6 @@ router.get("/:id", (req, res) => {
   res.status(200).json(post);
 });
 
-// export default router;
-module.exports = router;
+// Common JS way of doing it
+//module.exports = router;
+export default router;
