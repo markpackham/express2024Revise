@@ -31,7 +31,7 @@ async function addPost(e) {
 
   try {
     const res = await fetch(`http://localhost:8899/api/posts`, {
-      method: POST,
+      method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ title }),
     });
