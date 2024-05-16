@@ -1,5 +1,11 @@
 import express from "express";
-import { getPost, getPosts } from "../controllers/postController.js";
+import {
+  createPost,
+  deletePost,
+  editPost,
+  getPost,
+  getPosts,
+} from "../controllers/postController.js";
 const router = express.Router();
 
 // const logger = (req, res, next) => {
@@ -23,51 +29,13 @@ router.get("/", getPosts);
 router.get("/:id", getPost);
 
 // Create new post
-router.post("/", (req, res, next) => {
-  const newPost = {
-    id: posts.length + 1,
-    title: req.body.title,
-  };
-
-  if (!newPost.title) {
-    const error = new Error(`Please include a title`);
-    error.status = 400;
-    return next(error);
-  }
-
-  posts.push(newPost);
-  res.status(201).json(posts);
-});
+router.post("/", createPost);
 
 // Update / Put post
-router.put("/:id", (req, res, next) => {
-  const id = parseInt(req.params.id);
-  const post = posts.find((post) => post.id === id);
-
-  if (!post) {
-    const error = new Error(`That post was not found`);
-    error.status = 404;
-    return next(error);
-  }
-
-  post.title = req.body.title;
-  res.status(200).json(posts);
-});
+router.put("/:id", editPost);
 
 // Delete post
-router.delete("/:id", (req, res, next) => {
-  const id = parseInt(req.params.id);
-  const post = posts.find((post) => post.id === id);
-
-  if (!post) {
-    const error = new Error(`That post was not found`);
-    error.status = 404;
-    return next(error);
-  }
-
-  posts = posts.filter((post) => post.id !== id);
-  res.status(200).json(posts);
-});
+router.delete("/:id", deletePost);
 
 // Common JS way of doing it
 //module.exports = router;
