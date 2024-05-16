@@ -1,5 +1,8 @@
 import express from "express";
 import path from "path";
+
+import { fileURLToPath } from "url";
+
 // With Windows permissions cross-env needs to be installed to use the .env
 // https://www.npmjs.com/package/cross-env
 import posts from "./routes/posts.js";
@@ -12,7 +15,14 @@ const port = process.env.PORT || 8888;
 const app = express();
 
 // Setup static folder
-// app.use(express.static(path.join(__dirname, "public")));
+// Old way using Common Js
+//app.use(express.static(path.join(__dirname, "public")));
+
+// Modern way to handle static folder
+// Get directory name
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+app.use(express.static(path.join(__dirname, "public")));
 
 // Body parser middleware
 app.use(express.json());
