@@ -3,7 +3,7 @@ const button = document.querySelector("#get-posts-btn");
 
 async function showPosts() {
   try {
-    const res = await fetch(`http://localhost:8000/api/posts`);
+    const res = await fetch(`http://localhost:8899/api/posts`);
     if (!res.ok) {
       throw new Error("Failed to fetch posts");
     }
@@ -21,3 +21,6 @@ async function showPosts() {
     console.log("Error fetching posts: ", error);
   }
 }
+
+// Event listeners
+button.addEventListener("click", showPosts);
