@@ -1,12 +1,6 @@
 import express from "express";
+import { getPost, getPosts } from "../controllers/postController.js";
 const router = express.Router();
-
-let posts = [
-  { id: 1, title: "Post One" },
-  { id: 2, title: "Post Two" },
-  { id: 3, title: "Post Three" },
-  { id: 4, title: "Post Four" },
-];
 
 // const logger = (req, res, next) => {
 //   // Example of output
@@ -22,29 +16,11 @@ let posts = [
 // Limit
 // http://localhost:8899/api/posts?limit=2
 // router.get("/", logger, (req, res) => {
-router.get("/", (req, res, next) => {
-  const limit = parseInt(req.query.limit);
-
-  if (!isNaN(limit) && limit > 0) {
-    return res.status(200).json(posts.slice(0, limit));
-  }
-  res.status(200).json(posts);
-});
+router.get("/", getPosts);
 
 // Get single post
 // http://localhost:8899/api/posts/1
-router.get("/:id", (req, res, next) => {
-  const id = parseInt(req.params.id);
-
-  const post = posts.find((post) => post.id === id);
-
-  if (!post) {
-    const error = new Error(`That post was not found`);
-    error.status = 404;
-    return next(error);
-  }
-  res.status(200).json(post);
-});
+router.get("/:id", getPost);
 
 // Create new post
 router.post("/", (req, res, next) => {
