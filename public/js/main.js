@@ -52,4 +52,4 @@ async function addPost(e) {
 
 // Event listeners
 button.addEventListener("click", showPosts);
-form.addEventListener("click", addPost);
+form.addEventListener("submit", addPost);
