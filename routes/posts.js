@@ -8,14 +8,14 @@ let posts = [
   { id: 4, title: "Post Four" },
 ];
 
-const logger = (req, res, next) => {
-  // Example of output
-  // GET http://localhost:8899/api/posts?limit=2
-  console.log(
-    `${req.method} ${req.protocol}://${req.get("host")}${req.originalUrl}`
-  );
-  next();
-};
+// const logger = (req, res, next) => {
+//   // Example of output
+//   // GET http://localhost:8899/api/posts?limit=2
+//   console.log(
+//     `${req.method} ${req.protocol}://${req.get("host")}${req.originalUrl}`
+//   );
+//   next();
+// };
 
 // Get all posts
 // http://localhost:8899/api/posts
@@ -33,13 +33,15 @@ router.get("/", (req, res) => {
 
 // Get single post
 // http://localhost:8899/api/posts/1
-router.get("/:id", (req, res) => {
+router.get("/:id", (req, res, next) => {
   const id = parseInt(req.params.id);
 
   const post = posts.find((post) => post.id === id);
 
   if (!post) {
-    return res.status(404).json({ msg: `That post was not found` });
+    const error = new Error(`That post was not found`);
+    error.status = 404;
+    return next(error);
   }
   res.status(200).json(post);
 });

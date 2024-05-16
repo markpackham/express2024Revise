@@ -4,6 +4,7 @@ import path from "path";
 // https://www.npmjs.com/package/cross-env
 import posts from "./routes/posts.js";
 import logger from "./middleware/logger.js";
+import errorHandler from "./middleware/error.js";
 
 const port = process.env.PORT || 8888;
 
@@ -24,6 +25,9 @@ app.use(logger);
 
 // Routes
 app.use("/api/posts", posts);
+
+// Error handler (put below routes to avoid conflicts)
+app.use(errorHandler);
 
 app.listen(port, () => {
   console.log(`Server is running on port ${port}`);
