@@ -5,6 +5,7 @@ import path from "path";
 import posts from "./routes/posts.js";
 import logger from "./middleware/logger.js";
 import errorHandler from "./middleware/error.js";
+import notFound from "./middleware/notFound.js";
 
 const port = process.env.PORT || 8888;
 
@@ -25,6 +26,9 @@ app.use(logger);
 
 // Routes
 app.use("/api/posts", posts);
+
+// Routes that do not exist
+app.use(notFound);
 
 // Error handler (put below routes to avoid conflicts)
 app.use(errorHandler);

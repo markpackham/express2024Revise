@@ -22,7 +22,7 @@ let posts = [
 // Limit
 // http://localhost:8899/api/posts?limit=2
 // router.get("/", logger, (req, res) => {
-router.get("/", (req, res) => {
+router.get("/", (req, res, next) => {
   const limit = parseInt(req.query.limit);
 
   if (!isNaN(limit) && limit > 0) {
@@ -47,14 +47,16 @@ router.get("/:id", (req, res, next) => {
 });
 
 // Create new post
-router.post("/", (req, res) => {
+router.post("/", (req, res, next) => {
   const newPost = {
     id: posts.length + 1,
     title: req.body.title,
   };
 
   if (!newPost.title) {
-    return res.status(400).json({ msg: `Please include a title` });
+    const error = new Error(`Please include a title`);
+    error.status = 400;
+    return next(error);
   }
 
   posts.push(newPost);
@@ -62,12 +64,14 @@ router.post("/", (req, res) => {
 });
 
 // Update / Put post
-router.put("/:id", (req, res) => {
+router.put("/:id", (req, res, next) => {
   const id = parseInt(req.params.id);
   const post = posts.find((post) => post.id === id);
 
   if (!post) {
-    return res.status(404).json({ msg: `That post was not found` });
+    const error = new Error(`That post was not found`);
+    error.status = 404;
+    return next(error);
   }
 
   post.title = req.body.title;
@@ -75,12 +79,14 @@ router.put("/:id", (req, res) => {
 });
 
 // Delete post
-router.delete("/:id", (req, res) => {
+router.delete("/:id", (req, res, next) => {
   const id = parseInt(req.params.id);
   const post = posts.find((post) => post.id === id);
 
   if (!post) {
-    return res.status(404).json({ msg: `That post was not found` });
+    const error = new Error(`That post was not found`);
+    error.status = 404;
+    return next(error);
   }
 
   posts = posts.filter((post) => post.id !== id);
